@@ -1,4 +1,5 @@
 import { apiFetch } from "@/lib/api";
+import Link from "next/link";
 
 export const metadata = { title: "Products" };
 
@@ -48,6 +49,19 @@ export default async function ProductsPage() {
           marginTop: "1.5rem",
         }}>
           {products.map((p) => (
+
+            <Link
+              key={p.id}
+              href={`/products/${p.slug}`}
+              style={{
+                border: "1px solid #eee",
+                borderRadius: 8,
+                overflow: "hidden",
+                color: "inherit",
+                textDecoration: "none",
+                display: "block",
+              }}
+            >
             <div key={p.id} style={{ border: "1px solid #eee", borderRadius: 8, overflow: "hidden" }}>
               <div style={{
                 width: "100%",
@@ -73,6 +87,7 @@ export default async function ProductsPage() {
                 )}
               </div>
             </div>
+            </Link>  //ADD LINK TAG TO WRAP THE PRODUCT CARD
           ))}
         </div>
       )}
