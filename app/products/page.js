@@ -3,7 +3,36 @@ import { apiFetch } from "@/lib/api";
 export const metadata = { title: "Products" };
 
 export default async function ProductsPage() {
-  const { products } = await apiFetch("/api/products");
+  let products = [];
+  let error = null;
+
+  try {
+    const data = await apiFetch("/api/products");
+    products = data.products;
+  } catch (err) {
+    error = err.message;
+  }
+
+  if (error) {
+    return (
+      <main style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
+        <h1>All Products</h1>
+        <div style={{
+          marginTop: "1.5rem",
+          padding: "1.5rem",
+          background: "#fff5f5",
+          border: "1px solid #fecaca",
+          borderRadius: 8,
+          color: "#991b1b",
+        }}>
+          <strong>Unable to load products.</strong>
+          <p style={{ marginTop: "0.5rem", fontSize: "0.9rem" }}>
+            Please try again in a moment. If the problem persists, contact support.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
@@ -19,14 +48,7 @@ export default async function ProductsPage() {
           marginTop: "1.5rem",
         }}>
           {products.map((p) => (
-            <div
-              key={p.id}
-              style={{
-                border: "1px solid #eee",
-                borderRadius: 8,
-                overflow: "hidden",
-              }}
-            >
+            <div key={p.id} style={{ border: "1px solid #eee", borderRadius: 8, overflow: "hidden" }}>
               <div style={{
                 width: "100%",
                 aspectRatio: "1 / 1",
