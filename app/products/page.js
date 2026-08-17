@@ -1,7 +1,10 @@
 import { apiFetch } from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
-export const metadata = { title: "Products" };
+
+export const metadata = { title: "All Products" };
+export const revalidate = 60;
 
 export default async function ProductsPage() {
   let products = [];
@@ -62,19 +65,19 @@ export default async function ProductsPage() {
                 display: "block",
               }}
             >
-            <div key={p.id} style={{ border: "1px solid #eee", borderRadius: 8, overflow: "hidden" }}>
-              <div style={{
-                width: "100%",
-                aspectRatio: "1 / 1",
-                background: "#f5f5f5",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "0.8rem",
-                color: "#999",
-              }}>
-                {p.name}
-              </div>
+              <Image
+              src={p.image_url}
+              alt={p.name}
+              width={200}
+              height={200}
+              style={{
+              width: "100%",
+              aspectRatio: "1 / 1",
+              objectFit: "contain",
+              display: "block",
+              }}
+              />
+
               <div style={{ padding: "0.75rem" }}>
                 <div style={{ fontWeight: 600 }}>{p.name}</div>
                 <div style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
@@ -86,7 +89,7 @@ export default async function ProductsPage() {
                   </div>
                 )}
               </div>
-            </div>
+            
             </Link>  //ADD LINK TAG TO WRAP THE PRODUCT CARD
           ))}
         </div>
