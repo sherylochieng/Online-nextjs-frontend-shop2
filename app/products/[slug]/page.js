@@ -21,7 +21,14 @@ export async function generateMetadata({ params }) {
   return {
     title: product.name,
     description: product.description,
-  };
+    openGraph: {
+      title: product.name,
+      description: `KSh ${(product.price_cents / 100).toLocaleString()} — ${product.description}`,
+      // No `images` key needed here.
+      // Next.js automatically wires the sibling opengraph-image.js output
+      // as the og:image for this page. Adding `images` here would override it.
+    }
+  }
 }
 
 export default async function ProductPage({ params }) {
