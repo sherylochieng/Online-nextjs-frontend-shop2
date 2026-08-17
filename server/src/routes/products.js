@@ -9,6 +9,7 @@ export const productsRouter = Router();
 // Without this, a request to /api/products/categories would be caught
 // by /:slug and treated as a product lookup for slug "categories".
 productsRouter.get("/categories", asyncHandler(async (req, res) => {
+  // await new Promise(resolve => setTimeout(resolve, 2000));// Simulate a slow API for testing loading states
   const { rows } = await query(
     "SELECT DISTINCT category FROM products WHERE category IS NOT NULL ORDER BY category"
   );
@@ -17,6 +18,7 @@ productsRouter.get("/categories", asyncHandler(async (req, res) => {
 
 // Supports ?category= filter, used by /products/category/[cat]
 productsRouter.get("/", asyncHandler(async (req, res) => {
+  // await new Promise(resolve => setTimeout(resolve, 2000));// Simulate a slow API for testing loading states
   const { category } = req.query;
   const conditions = [];
   const params = [];
@@ -37,6 +39,7 @@ productsRouter.get("/", asyncHandler(async (req, res) => {
 
 // Single product by slug — must come AFTER /categories
 productsRouter.get("/:slug", asyncHandler(async (req, res) => {
+  // await new Promise(resolve => setTimeout(resolve, 2000));// Simulate a slow API for testing loading states
   const { rows } = await query(
     `SELECT id, slug, name, description, price_cents, image_url, stock, category
      FROM products WHERE slug = $1`,
