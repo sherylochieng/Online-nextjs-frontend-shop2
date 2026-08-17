@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
     <main style={{ maxWidth: 640, margin: "0 auto", padding: "2rem" }}>
@@ -6,7 +8,7 @@ export default function HomePage() {
         We sell good things at fair prices. Phones, accessories, and more.
       </p>
       <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
-        <a
+        <Link
           href="/products"
           style={{
             background: "#000",
@@ -17,7 +19,7 @@ export default function HomePage() {
           }}
         >
           Browse Products
-        </a>
+        </Link>
         <a
           href="/about"
           style={{

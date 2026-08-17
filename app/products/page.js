@@ -72,6 +72,7 @@ export default async function ProductsPage() {
               height={200}
               style={{
               width: "100%",
+              height: "auto",
               aspectRatio: "1 / 1",
               objectFit: "contain",
               display: "block",

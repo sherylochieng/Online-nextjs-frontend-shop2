@@ -1,5 +1,6 @@
 import "./globals.css";
 import Link from "next/link";
+import AxeDevtools from './components/AxeDevtools'
 
 // Next.js's built-in Google Fonts system — downloads and self-hosts the font at build time,
 // so the browser never makes a request to Google's own servers
@@ -66,7 +67,7 @@ export default function RootLayout({ children }) {
         }}>
           © {new Date().getFullYear()} Mctaba Shop
         </footer>
-
+        <AxeDevtools/>
       </body>
     </html>
   );
