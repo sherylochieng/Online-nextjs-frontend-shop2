@@ -132,7 +132,8 @@ checkoutRouter.post("/", asyncHandler(async (req, res) => {
       email,
       amountInSubunit: subtotalCents,
       reference,
-      callbackUrl: `${process.env.API_URL}/api/paystack/verify?reference=${reference}`,
+    //   callbackUrl: `${process.env.API_URL}/api/paystack/verify?reference=${reference}`,
+    callbackUrl: `${process.env.API_URL}/api/paystack/verify`,
       channels: CHANNELS_BY_PAYMENT_CHANNEL[paymentChannel],
       metadata: { orderId },
     });
