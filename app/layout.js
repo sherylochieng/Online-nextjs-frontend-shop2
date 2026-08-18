@@ -1,6 +1,7 @@
 import "./globals.css";
 import Link from "next/link";
 import AxeDevtools from './components/AxeDevtools'
+import CartCounter from "@/app/components/CartCounter";
 
 // Next.js's built-in Google Fonts system — downloads and self-hosts the font at build time,
 // so the browser never makes a request to Google's own servers
@@ -50,6 +51,7 @@ export default function RootLayout({ children }) {
             <div style={{ display: "flex", gap: "1.5rem" }}>
               <Link href="/products">Products</Link>
               <Link href="/about">About</Link>
+              <CartCounter />
               <Link href="/contact">Contact</Link>
             </div>
           </nav>

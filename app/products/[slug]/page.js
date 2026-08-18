@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import Image from "next/image";
+import AddToCartButton from '@/app/components/AddToCartButton';
 
 export const revalidate = 60;
 
@@ -121,7 +122,7 @@ export default async function ProductPage({ params }) {
             {product.description}
           </p>
 
-          <div style={{ marginTop: '1.5rem' }}>
+          {/* <div style={{ marginTop: '1.5rem' }}>
             <button
               disabled={product.stock === 0}
               style={{
@@ -137,7 +138,11 @@ export default async function ProductPage({ params }) {
             >
               {product.stock === 0 ? 'Out of stock' : 'Add to cart'}
             </button>
+          </div> */}
+          <div style={{ marginTop: '1.5rem' }}>
+          <AddToCartButton productId={product.id} stock={product.stock} />
           </div>
+
         </div>
       </div>
     </div>
