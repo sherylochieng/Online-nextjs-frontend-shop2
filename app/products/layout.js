@@ -39,9 +39,9 @@ export default async function ProductsLayout({ children }) {
         </ul>
       </aside>
 
-      <div>
+      <main>
         {children}
-      </div>
+      </main>
     </div>
   );
 }

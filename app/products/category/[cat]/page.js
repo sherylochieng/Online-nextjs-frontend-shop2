@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { apiFetch } from "@/lib/api";
+import Image from "next/image";
 
 export async function generateMetadata({ params }) {
   // params is a Promise in Next.js 16 — unwrap it first
@@ -46,6 +47,20 @@ export default async function CategoryPage({ params }) {
               display: "block",
             }}
           >
+               <Image
+                            src={p.image_url}
+                            alt={p.name}
+                            width={200}
+                            height={200}
+                            style={{
+                            width: "100%",
+                            height: "auto",
+                            aspectRatio: "1 / 1",
+                            objectFit: "contain",
+                            display: "block",
+                            }}
+                            />
+
             <div style={{ fontWeight: 600 }}>{p.name}</div>
             <div style={{ color: "#666", fontSize: "0.9rem", marginTop: "0.25rem" }}>
               KSh {(p.price_cents / 100).toLocaleString()}

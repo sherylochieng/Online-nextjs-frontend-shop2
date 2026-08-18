@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
+import Image from "next/image";
 
 export const revalidate = 60;
 
@@ -53,7 +54,7 @@ export default async function ProductPage({ params }) {
       <div
         style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}
       >
-        <div
+        {/* <div
           style={{
             width: '100%',
             aspectRatio: '1 / 1',
@@ -67,6 +68,22 @@ export default async function ProductPage({ params }) {
           }}
         >
           {product.name}
+        </div> */}
+
+        <div>
+           <Image
+                                      src={product.image_url}
+                                      alt={product.name}
+                                      width={200}
+                                      height={200}
+                                      style={{
+                                      width: "100%",
+                                      height: "auto",
+                                      aspectRatio: "1 / 1",
+                                      objectFit: "contain",
+                                      display: "block",
+                                      }}
+                                      />
         </div>
 
         <div>

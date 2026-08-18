@@ -50,6 +50,7 @@ export default function RootLayout({ children }) {
             <div style={{ display: "flex", gap: "1.5rem" }}>
               <Link href="/products">Products</Link>
               <Link href="/about">About</Link>
+              <Link href="/contact">Contact</Link>
             </div>
           </nav>
         </header>
