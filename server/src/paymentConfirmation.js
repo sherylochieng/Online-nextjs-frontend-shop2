@@ -1,5 +1,6 @@
 import { query } from "./db.js";
 import { restockFailedOrder } from "./orderLifecycle.js";
+import { sendOrderConfirmation } from "./orderNotifications.js";
 
 // Shared by the webhook and the verify redirect.
 // Must be idempotent — Paystack retries webhooks and both paths
@@ -44,7 +45,17 @@ export async function confirmPayment(reference, paidAmountInSubunit) {
     "UPDATE orders SET status = 'paid', updated_at = NOW() WHERE id = $1",
     [order.id]
   );
+
+
+  //added
+// Fire and forget: a WhatsApp failure should never affect payment confirmation,
+// which is already complete by this point.
+sendOrderConfirmation(order.id).catch((err) =>
+  console.error(`WhatsApp confirmation failed for order ${order.id}:`, err.message)
+);
+
 }
+
 
 // Called when Paystack reports failure or the customer abandons payment.
 // The WHERE clause's AND status = 'pending' makes this idempotent —
