@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { query } from "../db.js";
 import { asyncHandler } from "../asyncHandler.js";
+import { requireAdmin } from "../requireAdmin.js";
+import { updateOrderStatus } from "../orderLifecycle.js";
 
 export const ordersRouter = Router();
 
@@ -26,4 +28,14 @@ ordersRouter.get("/:reference", asyncHandler(async (req, res) => {
   );
 
   res.json({ order, items });
+}));
+
+ordersRouter.patch("/:id/status", requireAdmin, asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  const result = await updateOrderStatus(req.params.id, status);
+
+  if (result.error) {
+    return res.status(400).json({ error: result.error });
+  }
+  res.json(result);
 }));
