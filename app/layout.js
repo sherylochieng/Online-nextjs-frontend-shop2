@@ -54,6 +54,7 @@ export default function RootLayout({ children }) {
               <CartCounter />
               <Link href="/my-orders" style={{ color: "inherit" }}>My Orders</Link>
               <Link href="/contact">Contact</Link>
+              <Link href="/admin">Admin</Link>
             </div>
           </nav>
         </header>
