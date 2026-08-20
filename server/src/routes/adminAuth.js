@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { query } from "../db.js";
 import { asyncHandler } from "../asyncHandler.js";
+import { requireAdmin } from "../requireAdmin.js";
+
 
 export const adminAuthRouter = Router();
 
@@ -35,4 +37,14 @@ adminAuthRouter.post("/login", asyncHandler(async (req, res) => {
   );
 
   res.json({ token });
+}));
+
+//add
+adminAuthRouter.get("/orders", requireAdmin, asyncHandler(async (req, res) => {
+  const { rows } = await query(
+    `SELECT id, paystack_reference, customer_name, total_cents, status, created_at
+     FROM orders
+     ORDER BY created_at DESC`
+  );
+  res.json({ orders: rows });
 }));
