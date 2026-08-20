@@ -55,6 +55,7 @@ export default function RootLayout({ children }) {
               <Link href="/my-orders" style={{ color: "inherit" }}>My Orders</Link>
               <Link href="/contact">Contact</Link>
               <Link href="/admin/login">Admin</Link>
+              <Link href="/admin/dashboard">Dashboard</Link>
             </div>
           </nav>
         </header>
