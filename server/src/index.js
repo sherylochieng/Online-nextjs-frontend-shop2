@@ -7,6 +7,7 @@ import { checkoutRouter } from './routes/checkout.js';
 import { paystackRouter } from './routes/paystack.js';
 import { ordersRouter } from './routes/orders.js';
 import { myOrdersRouter } from './routes/myOrders.js';
+import { adminAuthRouter } from "./routes/adminAuth.js";
 
 // CRITICAL: webhook must get the raw Buffer BEFORE express.json() parses anything —
 // the HMAC signature check needs the exact original bytes.
@@ -27,6 +28,7 @@ app.use('/api/cart', cartRouter);
 app.use('/api/checkout', checkoutRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/my-orders', myOrdersRouter);
+app.use("/api/admin", adminAuthRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
