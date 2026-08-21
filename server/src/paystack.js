@@ -66,3 +66,17 @@ export function isValidWebhookSignature(rawBody, signature) {
     .digest("hex");
   return hash === signature;
 }
+
+//added
+export async function listTransactions({ perPage = 100, page = 1 } = {}) {
+  const res = await fetch(
+    `${PAYSTACK_BASE_URL}/transaction?perPage=${perPage}&page=${page}`,
+    { headers: { Authorization: `Bearer ${secretKey()}` } }
+  );
+
+  const data = await res.json();
+  if (!res.ok || !data.status) {
+    throw new Error(data.message || "Paystack list transactions failed");
+  }
+  return data.data;
+}

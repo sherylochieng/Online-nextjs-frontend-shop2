@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { query } from "../db.js";
 import { asyncHandler } from "../asyncHandler.js";
 import { requireAdmin } from "../requireAdmin.js";
+import {listTransactions} from "../paystack.js"
 
 
 export const adminAuthRouter = Router();
@@ -79,4 +80,56 @@ adminAuthRouter.get("/dashboard", requireAdmin, asyncHandler(async (req, res) =>
     todayOrderCount: Number(today[0].today_order_count),
     paidToday: Number(today[0].paid_today),
   });
+}));
+
+//added
+
+adminAuthRouter.get("/reconciliation", requireAdmin, asyncHandler(async (req, res) => {
+  const { rows: orders } = await query(`
+    SELECT id, paystack_reference, status, total_cents
+    FROM orders
+    ORDER BY created_at DESC
+    LIMIT 100
+  `);
+
+  const paystackTxns = await listTransactions({ perPage: 100 });
+  const paystackByRef = new Map(paystackTxns.map((t) => [t.reference, t]));
+
+  const discrepancies = [];
+
+  for (const order of orders) {
+    const txn = paystackByRef.get(order.paystack_reference);
+
+    if (!txn) {
+      discrepancies.push({
+        reference: order.paystack_reference,
+        issue: "Missing on Paystack",
+        dbStatus: order.status,
+      });
+      continue;
+    }
+
+    const expectedStatus =
+      txn.status === "success" ? "paid" : txn.status === "failed" ? "failed" : "pending";
+
+    if (order.status !== expectedStatus && order.status !== "cancelled") {
+      discrepancies.push({
+        reference: order.paystack_reference,
+        issue: "Status mismatch",
+        dbStatus: order.status,
+        paystackStatus: txn.status,
+      });
+    }
+
+    if (txn.amount !== order.total_cents) {
+      discrepancies.push({
+        reference: order.paystack_reference,
+        issue: "Amount mismatch",
+        dbAmountCents: order.total_cents,
+        paystackAmountCents: txn.amount,
+      });
+    }
+  }
+
+  res.json({ checked: orders.length, discrepancies });
 }));
